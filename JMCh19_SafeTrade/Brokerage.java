@@ -2,7 +2,7 @@ import java.lang.reflect.*;
 import java.util.*;
 
 /**edward rulesfda
- * Represents a brokeragXZe.
+ * Represents a brokeragXZe.asdf
  */
 public class Brokerage implements Login
 {
