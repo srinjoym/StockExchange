@@ -1,7 +1,7 @@
 import java.lang.reflect.*;
 import java.util.*;
 
-/**edward rules
+/**edward rulesfda
  * Represents a brokerage.
  */
 public class Brokerage implements Login
