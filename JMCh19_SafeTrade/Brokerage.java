@@ -64,4 +64,18 @@ public class Brokerage implements Login
 
         return str + "]";
     }
+
+    @Override
+    public int addUser( String name, String password )
+    {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public int login( String name, String password )
+    {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 }
