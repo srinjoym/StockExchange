@@ -61,6 +61,23 @@ public class Stock
     {
         return sellOrders;
     }
+    protected void executeOrders()
+    {
+        TradeOrder sellOrder = sellOrders.peek();
+        TradeOrder buyOrder  = buyOrders.peek();
+        if(sellOrder.isLimit()&&buyOrder.isLimit()&&)
+        {
+            
+        }
+    }
+    public String getQuote()
+    {
+        return -;
+        
+    }
+    public void placeOrder(){
+        
+    }
     
     /**
      * <p>
