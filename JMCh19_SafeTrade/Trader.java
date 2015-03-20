@@ -82,7 +82,22 @@ public class Trader implements Comparable<Trader>
         int i = this.getName().compareToIgnoreCase( arg0.getName() );
         return i;
     }
+    //TODO
+    public void receiveMessage()
+    {
+        
+    }
+    
+    public boolean hasMessages()
+    {
+        return mailbox.isEmpty();
+        
+    }
 
+    public void getQuote (String symbol)
+    {
+        return
+    }
 
     public void quit()
     {
