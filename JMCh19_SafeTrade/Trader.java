@@ -16,6 +16,12 @@ public class Trader implements Comparable<Trader>
     private Queue<String> mailbox;
 
 
+    public Trader (Brokerage broker, String name, String pswd)
+    {
+        brokerage = broker;
+        screenName = name;
+        password = pswd;
+    }
     // TODO complete class
 
     //
@@ -24,6 +30,52 @@ public class Trader implements Comparable<Trader>
     protected Queue<String> mailbox()
     {
         return mailbox;
+    }
+
+
+    public String getName()
+    {
+        return screenName;
+    }
+
+    public String getPassword()
+    {
+        return password;
+    }
+
+    @Override
+    public int compareTo( Trader arg0 )
+    {
+        if ( arg0 == null )
+        {
+            return -1;
+        }
+        int i = this.getName().compareToIgnoreCase( arg0.getName() );
+        return i;
+    }
+
+    
+    
+    public boolean hasMessages()
+    {
+        return mailbox.isEmpty();
+        
+    }
+
+    public void getQuote (String symbol)
+    {
+        
+    }
+
+    public void quit()
+    {
+        // TODO Auto-generated method stub
+
+    }
+    
+    public void recieveMessage(String msg)
+    {
+        
     }
 
 
@@ -65,43 +117,6 @@ public class Trader implements Comparable<Trader>
         return str + "]";
     }
 
-
-    public String getName()
-    {
-        return screenName;
     }
 
 
-    @Override
-    public int compareTo( Trader arg0 )
-    {
-        if ( arg0 == null )
-        {
-            return -1;
-        }
-        int i = this.getName().compareToIgnoreCase( arg0.getName() );
-        return i;
-    }
-    //TODO
-    public void receiveMessage()
-    {
-        
-    }
-    
-    public boolean hasMessages()
-    {
-        return mailbox.isEmpty();
-        
-    }
-
-    public void getQuote (String symbol)
-    {
-        return
-    }
-
-    public void quit()
-    {
-        // TODO Auto-generated method stub
-
-    }
-}
