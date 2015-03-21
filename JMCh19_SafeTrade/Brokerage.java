@@ -12,7 +12,13 @@ public class Brokerage implements Login
 
     // TODO complete class
 
-    
+
+    public Brokerage (StockExchange ex)
+    {
+        exchange = ex;
+        TreeMap<String,Trader> tree = new TreeMap<String,Trader>();
+        tree.putAll( traders );
+    }
     //
     // The following are for test purposes only
     //
