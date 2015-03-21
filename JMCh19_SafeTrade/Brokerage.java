@@ -2,14 +2,9 @@ import java.lang.reflect.*;
 import java.util.*;
 
 
-//_____   ____ _______       _    _ _______ ____  
-//|  __ \ / __ \__   __|/\   | |  | |__   __/ __ \ 
-//| |__) | |  | | | |  /  \  | |__| |  | | | |  | |
-//|  ___/| |  | | | | / /\ \ |  __  |  | | | |  | |
-//| |    | |__| | | |/ ____ \| |  | |  | | | |__| |
-//|_|     \____/  |_/_/    \_\_|  |_|  |_|  \____/ 
-//                                                
-//                                                
+/**
+ * edward rulesfda Represents a brokeragXZe.asdf
+ */
 public class Brokerage implements Login
 {
     private Map<String, Trader> traders;
@@ -24,8 +19,7 @@ public class Brokerage implements Login
     public Brokerage( StockExchange ex )
     {
         exchange = ex;
-        TreeMap<String, Trader> tree = new TreeMap<String, Trader>();
-        tree.putAll( traders );
+        traders = new TreeMap<String, Trader>();
         loggedTraders = new TreeSet<Trader>();
     }
 

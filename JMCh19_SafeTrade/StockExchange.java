@@ -1,13 +1,6 @@
 import java.lang.reflect.*;
 import java.util.*;
-//_____   ____ _______       _    _ _______ ____  
-//|  __ \ / __ \__   __|/\   | |  | |__   __/ __ \ 
-//| |__) | |  | | | |  /  \  | |__| |  | | | |  | |
-//|  ___/| |  | | | | / /\ \ |  __  |  | | | |  | |
-//| |    | |__| | | |/ ____ \| |  | |  | | | |__| |
-//|_|     \____/  |_/_/    \_\_|  |_|  |_|  \____/ 
-//                                              
-//
+
 /**
  * Represents a stock exchange. A <code>StockExchange</code> keeps a
  * <code>HashMap</code> of stocks, keyed by a stock symbol. It has methods to
@@ -20,6 +13,19 @@ public class StockExchange
     
     // TODO complete class
 
+    public StockExchange()
+    {
+        HashMap<String, Stock> hashmap = new HashMap<String,Stock>(listedStocks);
+    }
+    
+    public void listSTock (String symbol, String name, double price)
+    {
+        
+    }
+    public String getQuote (String symbol)
+    {
+        
+    }
     
     //
     // The following are for test purposes only

@@ -1,14 +1,7 @@
 import java.lang.reflect.*;
 import java.util.*;
 
-//_____   ____ _______       _    _ _______ ____  
-//|  __ \ / __ \__   __|/\   | |  | |__   __/ __ \ 
-//| |__) | |  | | | |  /  \  | |__| |  | | | |  | |
-//|  ___/| |  | | | | / /\ \ |  __  |  | | | |  | |
-//| |    | |__| | | |/ ____ \| |  | |  | | | |__| |
-//|_|     \____/  |_/_/    \_\_|  |_|  |_|  \____/ 
-//                                              
-//
+
 /**
  * Represents a stock trader.
  */
@@ -71,7 +64,7 @@ public class Trader implements Comparable<Trader>
 
     public void getQuote (String symbol)
     {
-        
+        brokerage.getQuote(symbol,this);
     }
 
     public void quit()
