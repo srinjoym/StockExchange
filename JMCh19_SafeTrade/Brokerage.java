@@ -2,9 +2,14 @@ import java.lang.reflect.*;
 import java.util.*;
 
 
-/**
- * edward rulesfda Represents a brokeragXZe.asdf
- */
+//_____   ____ _______       _    _ _______ ____  
+//|  __ \ / __ \__   __|/\   | |  | |__   __/ __ \ 
+//| |__) | |  | | | |  /  \  | |__| |  | | | |  | |
+//|  ___/| |  | | | | / /\ \ |  __  |  | | | |  | |
+//| |    | |__| | | |/ ____ \| |  | |  | | | |__| |
+//|_|     \____/  |_/_/    \_\_|  |_|  |_|  \____/ 
+//                                                
+//                                                
 public class Brokerage implements Login
 {
     private Map<String, Trader> traders;

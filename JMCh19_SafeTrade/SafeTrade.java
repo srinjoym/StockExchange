@@ -5,6 +5,14 @@ import javax.swing.*;
  */
 public class SafeTrade
 {
+  //_____   ____ _______       _    _ _______ ____  
+  //|  __ \ / __ \__   __|/\   | |  | |__   __/ __ \ 
+  //| |__) | |  | | | |  /  \  | |__| |  | | | |  | |
+  //|  ___/| |  | | | | / /\ \ |  __  |  | | | |  | |
+  //| |    | |__| | | |/ ____ \| |  | |  | | | |__| |
+  //|_|     \____/  |_/_/    \_\_|  |_|  |_|  \____/ 
+//                                                  
+  //  
     public static void main( String[] args )
     {
         StockExchange exchange = new StockExchange();
