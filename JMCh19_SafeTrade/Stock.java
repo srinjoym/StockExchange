@@ -2,91 +2,133 @@ import java.util.*;
 import java.lang.reflect.*;
 import java.text.DecimalFormat;
 
+
 /**
  * Represents a stock in the SafeTrade project
  */
-//_____   ____ _______       _    _ _______ ____  
-//|  __ \ / __ \__   __|/\   | |  | |__   __/ __ \ 
-//| |__) | |  | | | |  /  \  | |__| |  | | | |  | |
-//|  ___/| |  | | | | / /\ \ |  __  |  | | | |  | |
-//| |    | |__| | | |/ ____ \| |  | |  | | | |__| |
-//|_|     \____/  |_/_/    \_\_|  |_|  |_|  \____/ 
-//                                              
+// _____ ____ _______ _ _ _______ ____
+// | __ \ / __ \__ __|/\ | | | |__ __/ __ \
+// | |__) | | | | | | / \ | |__| | | | | | | |
+// | ___/| | | | | | / /\ \ | __ | | | | | | |
+// | | | |__| | | |/ ____ \| | | | | | | |__| |
+// |_| \____/ |_/_/ \_\_| |_| |_| \____/
+//
 //
 public class Stock
 {
     public static DecimalFormat money = new DecimalFormat( "0.00" );
 
     private String stockSymbol;
+
     private String companyName;
+
     private double loPrice, hiPrice, lastPrice;
+
     private int volume;
+
     private PriorityQueue<TradeOrder> buyOrders, sellOrders;
 
-    // TODO complete class
 
-    
+   public Stock(java.lang.String symbol, java.lang.String name, double price)
+   {
+       stockSymbol = symbol;
+       companyName = name;
+       loPrice = price;
+       hiPrice = price;
+       lastPrice = price;
+       volume =0;
+       sellOrders = new PriorityQueue<TradeOrder>( new PriceComparator(true) );
+       buyOrders = new PriorityQueue<TradeOrder>( new PriceComparator(false) );
+   }
+
     //
     // The following are for test purposes only
     //
-    
+
     protected String getStockSymbol()
     {
         return stockSymbol;
     }
-    
+
+
     protected String getCompanyName()
     {
         return companyName;
     }
-    
+
+
     protected double getLoPrice()
     {
         return loPrice;
     }
-    
+
+
     protected double getHiPrice()
     {
         return hiPrice;
     }
 
+
     protected double getLastPrice()
     {
         return lastPrice;
     }
-    
+
+
     protected int getVolume()
     {
         return volume;
     }
 
+
     protected PriorityQueue<TradeOrder> getBuyOrders()
     {
         return buyOrders;
     }
-    
+
+
     protected PriorityQueue<TradeOrder> getSellOrders()
     {
         return sellOrders;
     }
+
+
     protected void executeOrders()
     {
         TradeOrder sellOrder = sellOrders.peek();
         TradeOrder buyOrder  = buyOrders.peek();
-        if(sellOrder.isLimit()&&buyOrder.isLimit()&&)
+        if(sellOrder.isLimit()&&buyOrder.isLimit()&& sellOrder.)
         {
             
         }
     }
+
+
     public String getQuote()
     {
         return -;
         
     }
-    public void placeOrder(){
-        
+
+
+    public void placeOrder( TradeOrder order )
+    {
+        String msg = "New order: ";
+        if(order.isBuy())
+        {
+            buyOrders.add( order );
+            msg.concat( "Buy " );
+        }
+        else
+        {
+            sellOrders.add(order);
+            msg.concat( "Sell " );
+        }
+        msg.concat(order.getSymbol()+" ("+order.getTrader().getName()+);
+        order.getTrader().receiveMessage("New order: "+);
     }
-    
+
+
     /**
      * <p>
      * A generic toString implementation that uses reflection to print names and
@@ -107,8 +149,7 @@ public class Stock
         {
             try
             {
-                str += separator + field.getType().getName() + " "
-                    + field.getName() + ":" + field.get( this );
+                str += separator + field.getType().getName() + " " + field.getName() + ":" + field.get( this );
             }
             catch ( IllegalAccessException ex )
             {
