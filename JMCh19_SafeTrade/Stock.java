@@ -29,17 +29,18 @@ public class Stock
     private PriorityQueue<TradeOrder> buyOrders, sellOrders;
 
 
-   public Stock(java.lang.String symbol, java.lang.String name, double price)
-   {
-       stockSymbol = symbol;
-       companyName = name;
-       loPrice = price;
-       hiPrice = price;
-       lastPrice = price;
-       volume =0;
-       sellOrders = new PriorityQueue<TradeOrder>( new PriceComparator(true) );
-       buyOrders = new PriorityQueue<TradeOrder>( new PriceComparator(false) );
-   }
+    public Stock( java.lang.String symbol, java.lang.String name, double price )
+    {
+        stockSymbol = symbol;
+        companyName = name;
+        loPrice = price;
+        hiPrice = price;
+        lastPrice = price;
+        volume = 0;
+        sellOrders = new PriorityQueue<TradeOrder>( new PriceComparator( true ) );
+        buyOrders = new PriorityQueue<TradeOrder>( new PriceComparator( false ) );
+    }
+
 
     //
     // The following are for test purposes only
@@ -103,10 +104,12 @@ public class Stock
         }
     }
 
-
+//    Giggle.com (GGGL)
+//    Price: 10.00  hi: 10.00  lo: 10.00  vol: 0
+//    Ask: 12.75 size: 300  Bid: 12.00 size: 500
     public String getQuote()
     {
-        return -;
+        return companyName+" ("+stockSymbol+")"+"\n"+"Price: "+lastPrice+" hi: "+ hiPrice+" lo: "+loPrice+" vol: "+volume+"\n"+"Ask: ";
         
     }
 
@@ -124,8 +127,9 @@ public class Stock
             sellOrders.add(order);
             msg.concat( "Sell " );
         }
-        msg.concat(order.getSymbol()+" ("+order.getTrader().getName()+);
-        order.getTrader().receiveMessage("New order: "+);
+        msg.concat(order.getSymbol()+" ("+order.getTrader().getName()+")"+"\n"+
+        order.getShares()+ " shares at $"+order.getPrice());
+        
     }
 
 
