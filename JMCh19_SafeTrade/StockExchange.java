@@ -15,16 +15,23 @@ public class StockExchange
 
     public StockExchange()
     {
-        HashMap<String, Stock> hashmap = new HashMap<String,Stock>(listedStocks);
+       listedStocks = new HashMap<String,Stock>();
     }
     
-    public void listSTock (String symbol, String name, double price)
+    public void listStock (String symbol, String name, double price)
     {
-        
+        Stock s = new Stock (symbol, name, price);
+        listedStocks.put( symbol, s);
     }
     public String getQuote (String symbol)
     {
-        
+        Stock s = listedStocks.get( symbol );
+        return s.getLastPrice()+"";
+    }
+    public void placeOrder (TradeOrder order)
+    {
+        Stock s  = listedStocks.get( order.getSymbol() );
+        s.placeOrder(order);
     }
     
     //
