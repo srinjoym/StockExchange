@@ -13,6 +13,19 @@ public class StockExchange
     
     // TODO complete class
 
+    public StockExchange()
+    {
+        HashMap<String, Stock> hashmap = new HashMap<String,Stock>(listedStocks);
+    }
+    
+    public void listSTock (String symbol, String name, double price)
+    {
+        
+    }
+    public String getQuote (String symbol)
+    {
+        
+    }
     
     //
     // The following are for test purposes only

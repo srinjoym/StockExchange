@@ -5,6 +5,14 @@ import java.text.DecimalFormat;
 /**
  * Represents a stock in the SafeTrade project
  */
+//_____   ____ _______       _    _ _______ ____  
+//|  __ \ / __ \__   __|/\   | |  | |__   __/ __ \ 
+//| |__) | |  | | | |  /  \  | |__| |  | | | |  | |
+//|  ___/| |  | | | | / /\ \ |  __  |  | | | |  | |
+//| |    | |__| | | |/ ____ \| |  | |  | | | |__| |
+//|_|     \____/  |_/_/    \_\_|  |_|  |_|  \____/ 
+//                                              
+//
 public class Stock
 {
     public static DecimalFormat money = new DecimalFormat( "0.00" );

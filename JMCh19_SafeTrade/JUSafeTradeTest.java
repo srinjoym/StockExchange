@@ -8,7 +8,14 @@ import org.junit.*;
 
 import static org.junit.Assert.*;
 import junit.framework.JUnit4TestAdapter;
-
+//_____   ____ _______       _    _ _______ ____  
+//|  __ \ / __ \__   __|/\   | |  | |__   __/ __ \ 
+//| |__) | |  | | | |  /  \  | |__| |  | | | |  | |
+//|  ___/| |  | | | | / /\ \ |  __  |  | | | |  | |
+//| |    | |__| | | |/ ____ \| |  | |  | | | |__| |
+//|_|     \____/  |_/_/    \_\_|  |_|  |_|  \____/ 
+//                                              
+//
 /**
  * SafeTrade tests:
  *   TradeOrder

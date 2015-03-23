@@ -2,7 +2,14 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
-
+//_____   ____ _______       _    _ _______ ____  
+//|  __ \ / __ \__   __|/\   | |  | |__   __/ __ \ 
+//| |__) | |  | | | |  /  \  | |__| |  | | | |  | |
+//|  ___/| |  | | | | / /\ \ |  __  |  | | | |  | |
+//| |    | |__| | | |/ ____ \| |  | |  | | | |__| |
+//|_|     \____/  |_/_/    \_\_|  |_|  |_|  \____/ 
+//                                              
+//
 /**
  *  Provides GUI for registering and logging in users.
  */
