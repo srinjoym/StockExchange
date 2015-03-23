@@ -90,12 +90,15 @@ public class Brokerage implements Login
     public void getQuote( String symbol, Trader trader )
     {
 
+        trader.recieveMessage( exchange.getQuote( symbol ) );
     }
 
 
     public void placeOrder( TradeOrder order )
     {
 
+        exchange.placeOrder( order );
+        
     }
 
 
