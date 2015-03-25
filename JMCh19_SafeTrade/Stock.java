@@ -98,38 +98,62 @@ public class Stock
     {
         TradeOrder sellOrder = sellOrders.peek();
         TradeOrder buyOrder  = buyOrders.peek();
-        if(sellOrder.isLimit()&&buyOrder.isLimit()&& sellOrder.)
+        while ( !buyOrders.isEmpty() && !sellOrders.isEmpty() )
         {
-            
+            if(buyOrder.isLimit()&&sellOrder.isLimit())
+            {
+                
+            }
+            if ( buyOrder.isMarket() && sellOrder.isMarket() )
+            {
+                
+            }
         }
     }
 
-//    Giggle.com (GGGL)
-//    Price: 10.00  hi: 10.00  lo: 10.00  vol: 0
-//    Ask: 12.75 size: 300  Bid: 12.00 size: 500
+
+    // Giggle.com (GGGL)
+    // Price: 10.00 hi: 10.00 lo: 10.00 vol: 0
+    // Ask: 12.75 size: 300 Bid: 12.00 size: 500
     public String getQuote()
     {
-        return companyName+" ("+stockSymbol+")"+"\n"+"Price: "+lastPrice+" hi: "+ hiPrice+" lo: "+loPrice+" vol: "+volume+"\n"+"Ask: ";
-        
+        String first = companyName + " (" + stockSymbol + ")" + "\n" + "Price: " + lastPrice + " hi: " + hiPrice + " lo: " + money.format( loPrice ) + " vol: "
+            + volume + "\n";
+        String ask = "";
+        if ( !sellOrders.isEmpty() )
+        {
+            TradeOrder sellOrder = sellOrders.peek();
+            ask = " Ask: "+ sellOrder.getPrice()+" size: "+ sellOrder.getShares();
+        }
+        else
+            ask = " Ask: none";
+        String bid = "";
+        if(!buyOrders.isEmpty())
+        {
+            TradeOrder buyOrder = buyOrders.peek();
+            bid = " Bid: "+ buyOrder.getPrice()+" size: "+buyOrder.getPrice();
+        }
+        else 
+            bid = " Bid: none";
+        return first+ask+bid;
     }
 
 
     public void placeOrder( TradeOrder order )
     {
         String msg = "New order: ";
-        if(order.isBuy())
+        if ( order.isBuy() )
         {
             buyOrders.add( order );
             msg.concat( "Buy " );
         }
         else
         {
-            sellOrders.add(order);
+            sellOrders.add( order );
             msg.concat( "Sell " );
         }
-        msg.concat(order.getSymbol()+" ("+order.getTrader().getName()+")"+"\n"+
-        order.getShares()+ " shares at $"+order.getPrice());
-        
+        msg.concat( order.getSymbol() + " (" + order.getTrader().getName() + ")" + "\n" + order.getShares() + " shares at $" + order.getPrice() );
+        executeOrders();
     }
 
 
