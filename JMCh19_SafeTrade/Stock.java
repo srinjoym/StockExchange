@@ -97,16 +97,31 @@ public class Stock
     protected void executeOrders()
     {
         TradeOrder sellOrder = sellOrders.peek();
-        TradeOrder buyOrder  = buyOrders.peek();
+        TradeOrder buyOrder = buyOrders.peek();
         while ( !buyOrders.isEmpty() && !sellOrders.isEmpty() )
         {
-            if(buyOrder.isLimit()&&sellOrder.isLimit())
+            if ( buyOrder.isLimit() && sellOrder.isLimit() )
             {
-                
+                if ( sellOrder.getPrice() <= buyOrder.getPrice() )
+                {
+                    int share = Math.min( buyOrder.getShares(), sellOrder.getShares() );
+                    buyOrder.subtractShares( share );
+                    sellOrder.subtractShares( share );
+                    if(buyOrder.getShares()==0)
+                    {
+                        buyOrders.remove(buyOrder);
+                    }
+                    if(sellOrder.getShares()==0)
+                    {
+                        sellOrders.remove(sellOrder);
+                    }
+                    volume+=share;
+                    buyOrder.getTrader().recieveMessage( msg );
+                }
             }
             if ( buyOrder.isMarket() && sellOrder.isMarket() )
             {
-                
+
             }
         }
     }
@@ -123,19 +138,19 @@ public class Stock
         if ( !sellOrders.isEmpty() )
         {
             TradeOrder sellOrder = sellOrders.peek();
-            ask = " Ask: "+ sellOrder.getPrice()+" size: "+ sellOrder.getShares();
+            ask = " Ask: " + sellOrder.getPrice() + " size: " + sellOrder.getShares();
         }
         else
             ask = " Ask: none";
         String bid = "";
-        if(!buyOrders.isEmpty())
+        if ( !buyOrders.isEmpty() )
         {
             TradeOrder buyOrder = buyOrders.peek();
-            bid = " Bid: "+ buyOrder.getPrice()+" size: "+buyOrder.getPrice();
+            bid = " Bid: " + buyOrder.getPrice() + " size: " + buyOrder.getPrice();
         }
-        else 
+        else
             bid = " Bid: none";
-        return first+ask+bid;
+        return first + ask + bid;
     }
 
 
