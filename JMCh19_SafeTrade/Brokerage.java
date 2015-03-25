@@ -68,6 +68,7 @@ public class Brokerage implements Login
                     {
                         trader.recieveMessage( "Welcome to SafeTrade!" );
                     }
+                    loggedTraders.add(trader);
                     return 0;
                 }
                 return 3;
