@@ -68,7 +68,7 @@ public class Brokerage implements Login
                     // if no messages
                     if ( !trader.hasMessages() )
                     {
-                        trader.recieveMessage( "Welcome to SafeTrade!" );
+                        trader.receiveMessage( "Welcome to SafeTrade!" );
                     }
                     trader.openWindow();
                     loggedTraders.add(trader);
@@ -94,7 +94,7 @@ public class Brokerage implements Login
     public void getQuote( String symbol, Trader trader )
     {
 
-        trader.recieveMessage( exchange.getQuote( symbol ) );
+        trader.receiveMessage( exchange.getQuote( symbol ) );
     }
 
 
