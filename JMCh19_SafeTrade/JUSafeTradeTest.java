@@ -185,27 +185,466 @@ public class JUSafeTradeTest
     }
 
     //  --Test PriceComparator
+    /*
+     * Price Comparator Tests:
+     *      priceComparatorCompare()
+     */
+    public void priceComparatorAscending()
+    {
+        PriceComparator pc = new PriceComparator();
+        TradeOrder t1 = new TradeOrder( new Trader( new Brokerage( new StockExchange() ),
+            "Test",
+            "Test" ),
+            symbol,
+            buyOrder,
+            false,
+            numShares,
+            price );
+        TradeOrder t2 = new TradeOrder( new Trader( new Brokerage( new StockExchange() ),
+            "Test",
+            "Test" ),
+            symbol,
+            buyOrder,
+            false,
+            numShares,
+            price + 5.0 );
+        assertNotNull( pc );
+        assertNotNull( t1 );
+        assertNotNull( t2 );
+        assertEquals( "<< PriceComparator: compare(" + t1 + ", " + t2
+            + ") should be " + (int)Math.round( (100 * t1.getPrice()) - (100 * t2.getPrice()) )
+            + ">>",
+            (int)Math.round( (100 * t1.getPrice()) - (100 * t2.getPrice()) ),
+            pc.compare( t1, t2 ) );
+    }
+ 
+ 
+    @Test
+    public void priceComparatorDescending()
+    {
+        PriceComparator pc = new PriceComparator( false );
+        TradeOrder t1 = new TradeOrder( new Trader( new Brokerage( new StockExchange() ),
+            "Test",
+            "Test" ),
+            symbol,
+            buyOrder,
+            false,
+            numShares,
+            price + 5.0 );
+        TradeOrder t2 = new TradeOrder( new Trader( new Brokerage( new StockExchange() ),
+            "Test",
+            "Test" ),
+            symbol,
+            buyOrder,
+            false,
+            numShares,
+            price );
+        assertNotNull( pc );
+        assertNotNull( t1 );
+        assertNotNull( t2 );
+        assertEquals( "<< PriceComparator: compare(" + t1 + ", " + t2
+            + ") should be " + (int)Math.round(( 100 * t2.getPrice()) - (100 * t1.getPrice()) )
+            + ">>",
+            (int)Math.round( (100 * t2.getPrice()) - (100 * t1.getPrice()) ),
+            pc.compare( t1, t2 ) );
+    }
     
-    // TODO your tests here
+    // --Test Trader 
+    @Test
+    public void traderEquals()
+    {
+        Trader tr = new Trader( new Brokerage( new StockExchange() ),
+            "Test",
+            "Test" );
+        assertTrue( tr.equals( tr ) );
+    }
+    @Test
+    public void traderGetName()
+    {
+        Trader tr = new Trader( new Brokerage( new StockExchange() ),
+            "Test",
+            "Test" );
+        assertEquals( tr.getName(), "Test" );
+    }
+ 
+ 
+    @Test
+    public void traderGetPassword()
+    {
+        Trader tr = new Trader( new Brokerage( new StockExchange() ),
+            "Test",
+            "Test" );
+        assertEquals( tr.getPassword(), "Test" );
+    }
+    public void traderGetQuote()
+    {
+        StockExchange exchange = new StockExchange();
+        exchange.listStock( symbol, "Test", price );
+        Stock gggl = exchange.getListedStocks().get( symbol );
+        Brokerage broke = new Brokerage( exchange );
+        Trader testr = new Trader( broke, "Test", "Test" );
+        testr.getQuote( symbol );
+ 
+        assertTrue( testr.hasMessages() );
+        testr.mailbox();
+    }
+ 
+    @Test
+    public void traderMessage()
+    {
+        Trader tr = new Trader( new Brokerage( new StockExchange() ),
+            "Test",
+            "Test" );
+        tr.receiveMessage( "Test" );
+        assertTrue( tr.hasMessages() );
+        tr.openWindow();
+        assertFalse( tr.hasMessages() );
+        tr.quit();
+    }
+ 
+ 
+    @Test
+    public void traderPlaceOrder()
+    {
+        StockExchange exchange = new StockExchange();
+        exchange.listStock( symbol, "Test", price );
+        Stock gggl = exchange.getListedStocks().get( symbol );
+        Brokerage broke = new Brokerage( exchange );
+        Trader testr = new Trader( broke, "Test", "Test" );
+        TradeOrder test = new TradeOrder( testr,
+            symbol,
+            buyOrder,
+            marketOrder,
+            numShares,
+            price );
+        testr.placeOrder( test );
+ 
+        assertFalse( gggl.getBuyOrders().isEmpty() );
+        assertTrue( testr.hasMessages() );
+    }  
     
-    
-    // --Test Trader
-    
+    public void traderToString()
+    {
+        Trader t = new Trader( new Brokerage( new StockExchange() ),
+            "Test",
+            "Test" );
+        assertNotNull( t.toString() );
+    }
     // TODO your tests here
     
     
     // --Test Brokerage
+    public void brokerageAddUser()
+    {
+        Brokerage b = new Brokerage( new StockExchange() );
+        assertEquals( b.addUser( "T", "Test" ), -1 );
+        assertEquals( b.addUser( "Test", "T" ), -2 );
+        assertEquals( b.addUser( "Test", "Test" ), 0 );
+        assertEquals( b.addUser( "Test", "Test" ), -3 );
+        assertTrue( b.getTraders().containsKey( "Test" ) );
+    }
     
+    @Test
+    public void brokerageGetQuote()
+    {
+        StockExchange exchange = new StockExchange();
+        exchange.listStock( symbol, "Test", price );
+        Stock s = exchange.getListedStocks().get( symbol );
+        Brokerage broke = new Brokerage( exchange );
+        Trader t = new Trader( broke, "Test", "Test" );
+        broke.getQuote( symbol, t );
+ 
+        assertTrue( t.hasMessages() );
+    }
+ 
+    @Test
+    public void brokerageLogin()
+    {
+        Brokerage b = new Brokerage( new StockExchange() );
+        assertEquals( b.addUser( "Test", "Test" ), 0 );
+        assertEquals( b.login( "Test", "Test" ), 0 );
+        assertEquals( b.login( "T", "Test" ), -1 );
+        assertEquals( b.login( "Test", "T" ), -2 );  
+        assertEquals( b.login( "Test", "Test" ), -3 );
+        assertTrue( b.getLoggedTraders().contains( b.getTraders()
+            .get( "Test" ) ) );
+    }
+ 
+ 
+    @Test
+    public void brokerageGetExchange()
+    {
+        StockExchange s = new StockExchange();
+        Brokerage b = new Brokerage( s );
+        assertEquals( b.getExchange(), s );
+    }
+ 
+ 
+    @Test
+    public void brokerageLogout()
+    {
+        Brokerage b = new Brokerage( new StockExchange() );
+        assertEquals( b.login( "Test", "Test" ), 0 );
+        assertEquals( b.addUser( "Test", "Test" ), 0 );
+        b.logout( b.getTraders().get( "Test" ) );
+        assertFalse( b.getLoggedTraders().contains( b.getTraders()
+            .get( "Test" ) ) );
+    }
+ 
+ 
+    
+ 
+ 
+    @Test
+    public void brokeragePlaceOrder()
+    {
+        StockExchange exchange = new StockExchange();
+        exchange.listStock( symbol, "Test", price );
+        Stock gggl = exchange.getListedStocks().get( symbol );
+        Brokerage broke = new Brokerage( exchange );
+        Trader testr = new Trader( broke, "Test", "Test" );
+        TradeOrder test = new TradeOrder( testr,
+            symbol,
+            buyOrder,
+            marketOrder,
+            numShares,
+            price );
+        broke.placeOrder( test );
+ 
+        assertFalse( gggl.getBuyOrders().isEmpty() );
+        assertTrue( testr.hasMessages() );
+    }
     // TODO your tests here
     
     
     // --Test StockExchange
-    
+    public void StockExchangeGetQuote()
+    {
+        StockExchange exchange = new StockExchange();
+        exchange.listStock( symbol, "Test", price );
+        assertEquals( "Test" + " (" + symbol + ")\nPrice: " + price + "  hi: "
+            + price + "  lo: " + price + "  vol: 0\nAsk: none Bid: none",
+            exchange.getQuote( symbol ) );
+    }
+ 
+ 
+    @Test
+    public void StockExchangeListStock()
+    {
+        StockExchange exchange = new StockExchange();
+        exchange.listStock( symbol, "Test", price );
+        assertEquals( false, exchange.getListedStocks().isEmpty() );
+    }
+ 
+ 
+    @Test
+    public void StockExchangePlaceOrder()
+    {
+        StockExchange exchange = new StockExchange();
+        exchange.listStock( symbol, "Test", price );
+        Stock gggl = exchange.getListedStocks().get( symbol );
+        Brokerage broke = new Brokerage( exchange );
+        Trader testr = new Trader( broke, "Test", "Test" );
+        TradeOrder test = new TradeOrder( testr,
+            symbol,
+            buyOrder,
+            marketOrder,
+            numShares,
+            price );
+        exchange.placeOrder( test );
+ 
+        assertFalse( gggl.getBuyOrders().isEmpty() );
+        assertTrue( testr.hasMessages() );
+    }
     // TODO your tests here
     
     
     // --Test Stock
-    
+    public void getQuote()
+    {
+        Stock stock = new Stock( symbol, "Test", price );
+        assertEquals( stock.getQuote(), "Test (" + symbol + ")\nPrice: "
+            + price + "  hi: " + price + "  lo: " + price
+            + "  vol: 0\nAsk: none Bid: none" );
+    }
+ 
+ 
+    @Test
+    public void getBuyStockQuote()
+    {
+        Stock stock = new Stock( symbol, "Test", price );
+        TradeOrder to = new TradeOrder( new Trader( new Brokerage( new StockExchange() ),
+            "Test",
+            "Test" ),
+            symbol,
+            false,
+            buyOrder,
+            numShares,
+            price );
+        stock.placeOrder( to );
+ 
+        assertEquals( "Test (" + symbol + ")\nPrice: " + price + "  hi: "
+            + price + "  lo: " + price
+            + "  vol: 0\nAsk: market size: 123 Bid: none", stock.getQuote() );
+    }
+ 
+ 
+    @Test
+    public void getSellStockQuote()
+    {
+        Stock stock = new Stock( symbol, "Test", price );
+        TradeOrder to = new TradeOrder( new Trader( new Brokerage( new StockExchange() ),
+            "Test",
+            "Test" ),
+            symbol,
+            marketOrder,
+            buyOrder,
+            numShares,
+            price );
+        stock.placeOrder( to );
+ 
+        assertEquals( "Test (" + symbol + ")\nPrice: " + price + "  hi: "
+            + price + "  lo: " + price
+            + "  vol: 0\nAsk: market size: 123 Bid: none", stock.getQuote() );
+    }
+ 
+ 
+    @Test
+    public void getSellLimitStockQuote()
+    {
+        Stock stock = new Stock( symbol, "Test", price );
+        TradeOrder to = new TradeOrder( new Trader( new Brokerage( new StockExchange() ),
+            "Test",
+            "Test" ),
+            symbol,
+            false,
+            false,
+            numShares,
+            price );
+        stock.placeOrder( to );
+ 
+        assertEquals( "Test (" + symbol + ")\nPrice: " + price + "  hi: "
+            + price + "  lo: " + price
+            + "  vol: 0\nAsk: 123.45 size: 123 Bid: none", stock.getQuote() );
+    }
+ 
+ 
+    @Test
+    public void getSellMarketStockQuote()
+    {
+        Stock stock = new Stock( symbol, "Test", price );
+        buyOrder = false;
+        assertEquals( stock.getQuote(), "Test (" + symbol + ")\nPrice: "
+            + price + "  hi: " + price + "  lo: " + price
+            + "  vol: 0\nAsk: none Bid: none" );
+    }
+ 
+ 
+    @Test
+    public void placeStockBuyOrder()
+    {
+        StockExchange exchange = new StockExchange();
+        Stock gggl = new Stock( symbol, "Test", price );
+        exchange.listStock( symbol, "Test", price );
+        Brokerage broke = new Brokerage( exchange );
+        Trader testr = new Trader( broke, "Test", "Test" );
+        TradeOrder test = new TradeOrder( testr,
+            symbol,
+            buyOrder,
+            marketOrder,
+            numShares,
+            price );
+ 
+        gggl.placeOrder( test );
+        assertFalse( gggl.getBuyOrders().isEmpty() );
+        assertTrue( testr.hasMessages() );
+    }
+ 
+ 
+    @Test
+    public void placeStockSellOrder()
+    {
+        StockExchange exchange = new StockExchange();
+        Stock gggl = new Stock( symbol, "Test", price );
+        exchange.listStock( symbol, "Test", price );
+        Brokerage broke = new Brokerage( exchange );
+        Trader testr = new Trader( broke, "Test", "Test" );
+        TradeOrder test = new TradeOrder( testr,
+            symbol,
+            false,
+            marketOrder,
+            numShares,
+            price );
+ 
+        gggl.placeOrder( test );
+        assertFalse( gggl.getSellOrders().isEmpty() );
+        assertTrue( testr.hasMessages() );
+    }
+ 
+ 
+    @Test
+    public void toStringTest()
+    {
+        StockExchange exchange = new StockExchange();
+        Stock gggl = new Stock( symbol, "Test", price );
+        Trader tr = new Trader( new Brokerage( new StockExchange() ),
+            "Test",
+            "Test" );
+        TradeOrder to = new TradeOrder( null,
+            symbol,
+            buyOrder,
+            marketOrder,
+            numShares,
+            price );
+        Brokerage br = new Brokerage( new StockExchange() );
+        assertNotNull( exchange.toString() );
+        assertNotNull( gggl.toString() );
+        assertNotNull( tr.toString() );
+        assertNotNull( to.toString() );
+        assertNotNull( br.toString() );
+    }
+ 
+ 
+    @Test
+    public void executeOrders()
+    {
+        StockExchange exchange = new StockExchange();
+        Stock gggl = new Stock( symbol, "Test", price );
+        exchange.listStock( symbol, "Test", price );
+        Brokerage broke = new Brokerage( exchange );
+        Trader testr = new Trader( broke, "Test", "Test" );
+        TradeOrder test = new TradeOrder( testr,
+            symbol,
+            false,
+            marketOrder,
+            numShares,
+            price );
+        TradeOrder test2 = new TradeOrder( testr,
+            symbol,
+            true,
+            marketOrder,
+            numShares,
+            price );
+ 
+        gggl.placeOrder( test );
+        gggl.placeOrder( test2 );
+        assertFalse( gggl.getSellOrders().isEmpty() );
+        assertTrue( testr.hasMessages() );
+        gggl.executeOrders();
+    }
+ 
+ 
+    @Test
+    public void stockGetMethods()
+    {
+        Stock gggl = new Stock( symbol, "Test", price );
+        assertEquals( gggl.getStockSymbol(), symbol );
+        assertEquals( gggl.getCompanyName(), "Test" );
+        assertEquals( (int)gggl.getLoPrice(), (int)price );
+        assertEquals( (int)gggl.getHiPrice(), (int)price );
+        assertEquals( (int)gggl.getLastPrice(), (int)price );
+        assertEquals( (int)gggl.getVolume(), 0 );
+    }
     // TODO your tests here
 
     
@@ -222,4 +661,3 @@ public class JUSafeTradeTest
     }
 */
 }
-
