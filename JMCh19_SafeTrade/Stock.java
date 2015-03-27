@@ -1,6 +1,8 @@
-import java.util.*;
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
 import java.text.DecimalFormat;
+import java.util.PriorityQueue;
+
+
 
 
 /**
@@ -100,6 +102,7 @@ public class Stock
         TradeOrder buyOrder = buyOrders.peek();
         while ( !buyOrders.isEmpty() && !sellOrders.isEmpty() )
         {
+           
             if ( buyOrder.isLimit() && sellOrder.isLimit() )
             {
                 if ( sellOrder.getPrice() <= buyOrder.getPrice() )
@@ -107,23 +110,86 @@ public class Stock
                     int share = Math.min( buyOrder.getShares(), sellOrder.getShares() );
                     buyOrder.subtractShares( share );
                     sellOrder.subtractShares( share );
-                    if(buyOrder.getShares()==0)
+                    if ( buyOrder.getShares() == 0 )
                     {
-                        buyOrders.remove(buyOrder);
+                        buyOrders.remove( buyOrder );
                     }
-                    if(sellOrder.getShares()==0)
+                    if ( sellOrder.getShares() == 0 )
                     {
-                        sellOrders.remove(sellOrder);
+                        sellOrders.remove( sellOrder );
                     }
-                    volume+=share;
-                    buyOrder.getTrader().recieveMessage( msg );
+                    if ( sellOrder.getPrice() < loPrice )
+                        loPrice = sellOrder.getPrice();
+                    else
+                        hiPrice = sellOrder.getPrice();
+
+                    volume += share;
+                    buyOrder.getTrader().receiveMessage( "You bought : " + share + " " + buyOrder.getSymbol() + " at " + sellOrder.getPrice() + " amt "
+                        + money.format( share * sellOrder.getPrice() ) );
                 }
+            }
+            else if ( buyOrder.isMarket() && sellOrder.isLimit() || sellOrder.isMarket() && buyOrder.isLimit() )
+            {
+                int share = Math.min( buyOrder.getShares(), sellOrder.getShares() );
+
+                buyOrder.subtractShares( share );
+                sellOrder.subtractShares( share );
+
+                if ( buyOrder.getShares() == 0 )
+                {
+                    buyOrders.remove( buyOrder );
+                }
+                if ( sellOrder.getShares() == 0 )
+                {
+                    sellOrders.remove( sellOrder );
+                }
+
+                double price = 0;
+                if ( buyOrder.isLimit() )
+                    price = buyOrder.getPrice();
+                else
+                    price = sellOrder.getPrice();
+                if ( price < loPrice )
+                    loPrice = price;
+                if ( price > hiPrice )
+                    hiPrice = price;
+                volume = volume + share;
+
+                Trader bt = buyOrder.getTrader();
+                Trader st = sellOrder.getTrader();
+
+                buyOrder.getTrader().receiveMessage( "You bought : " + share + " " + buyOrder.getSymbol() + " at " + sellOrder.getPrice() + " amt "
+                                + money.format( share * sellOrder.getPrice() ) );
+                sellOrder.getTrader().receiveMessage( "You sold : " + share + " " + buyOrder.getSymbol() + " at " + sellOrder.getPrice() + " amt "
+                                + money.format( share * sellOrder.getPrice() ) );
+              
+                return;
             }
             if ( buyOrder.isMarket() && sellOrder.isMarket() )
             {
-
+                int share = Math.min( buyOrder.getShares(), sellOrder.getShares() );
+                buyOrder.subtractShares( share );
+                sellOrder.subtractShares( share );
+                if ( buyOrder.getShares() == 0 )
+                {
+                    buyOrders.remove( buyOrder );
+                }
+                if ( sellOrder.getShares() == 0 )
+                {
+                    sellOrders.remove( sellOrder );
+                }
+                volume = volume + share;
+                buyOrder.getTrader().receiveMessage( "You bought : " + share + " " + buyOrder.getSymbol() + " at " + lastPrice + " amt "
+                                + money.format( share * sellOrder.getPrice() ) );
+                buyOrder.getTrader().receiveMessage( "You sold : " + share + " " + buyOrder.getSymbol() + " at " + lastPrice + " amt "
+                                + money.format( share * sellOrder.getPrice() ) );
+                return;
+            }
+            else{
+                return;
             }
         }
+        
     }
 
 
