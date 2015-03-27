@@ -85,7 +85,7 @@ public class Trader implements Comparable<Trader>
  
     }
      
-    public void recieveMessage(String msg)
+    public void receiveMessage(String msg)
     {
         mailbox.add( msg );
         if (myWindow!=null)

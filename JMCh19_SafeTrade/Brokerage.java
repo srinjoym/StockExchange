@@ -21,6 +21,7 @@ public class Brokerage implements Login
         exchange = ex;
         traders = new TreeMap<String, Trader>();
         loggedTraders = new TreeSet<Trader>();
+        
     }
 
 
@@ -40,6 +41,7 @@ public class Brokerage implements Login
                 {
                     Trader trader = new Trader( this, name, password );
                     traders.put( name, trader );
+                    
                     return 0;
                 }
                 return 3;
@@ -66,8 +68,10 @@ public class Brokerage implements Login
                     // if no messages
                     if ( !trader.hasMessages() )
                     {
-                        trader.recieveMessage( "Welcome to SafeTrade!" );
+                        trader.receiveMessage( "Welcome to SafeTrade!" );
                     }
+                    trader.openWindow();
+                    loggedTraders.add(trader);
                     return 0;
                 }
                 return 3;
@@ -90,7 +94,7 @@ public class Brokerage implements Login
     public void getQuote( String symbol, Trader trader )
     {
 
-        trader.recieveMessage( exchange.getQuote( symbol ) );
+        trader.receiveMessage( exchange.getQuote( symbol ) );
     }
 
 

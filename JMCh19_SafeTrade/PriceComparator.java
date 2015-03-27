@@ -40,10 +40,10 @@ public class PriceComparator implements java.util.Comparator<TradeOrder>
         {
             if(ascending)
             {
-                return order1.getPrice()-order2.getPrice();
+                return (int)(100*order1.getPrice()-100*order2.getPrice());
             }
             else
-                return order2.getPrice()-order1.getPrice();
+                return (int)(100*order2.getPrice()-100*order1.getPrice());
         }
     }
 
